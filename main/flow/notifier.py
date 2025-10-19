@@ -32,7 +32,7 @@ import os
 import asyncio
 import httpx
 
-TOKEN = "7271340223:AAGJkBEPglSk21tKEUOdhc32Gb0zrOJhcYc".strip()
+TOKEN = "your_token".strip()
 
 API_BASE = f"https://api.telegram.org/bot{TOKEN}"
 
