@@ -1,0 +1,15 @@
+global:
+  scrape_interval: 5s
+
+scrape_configs:
+  - job_name: 'arbitrage-service'
+    metrics_path: /metrics
+    scheme: https
+    static_configs:
+      - targets: ['hesam-arbitrage.liara.run']
+
+  - job_name: "postgres"
+    scheme: http
+    metrics_path: /metrics
+    static_configs:
+      - targets: ["89.42.199.5:9187"]

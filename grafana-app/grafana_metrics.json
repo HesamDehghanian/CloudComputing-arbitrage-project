@@ -1,0 +1,164 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": "-- Grafana --",
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": null,
+  "links": [],
+  "panels": [
+    {
+      "type": "timeseries",
+      "title": "Spread Percentage (5m) — Price Differences",
+      "targets": [
+        {
+          "expr": "last_over_time(last_benefit_percent[5m])",
+          "legendFormat": "{{pair}}",
+          "refId": "A",
+          "datasource": "Prometheus"
+        }
+      ],
+      "options": { "legend": { "displayMode": "list", "placement": "bottom" } },
+      "fieldConfig": { "defaults": { "unit": "percent" }, "overrides": [] },
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 0 }
+    },
+    {
+      "type": "timeseries",
+      "title": "Last Spread (Absolute)",
+      "targets": [
+        {
+          "expr": "last_over_time(last_different_prices[5m])",
+          "legendFormat": "{{pair}}",
+          "refId": "B",
+          "datasource": "Prometheus"
+        }
+      ],
+      "options": { "legend": { "displayMode": "list", "placement": "bottom" } },
+      "fieldConfig": { "defaults": { "unit": "short" }, "overrides": [] },
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 0 }
+    },
+    {
+      "type": "timeseries",
+      "title": "HTTP Client Latency p95 by Exchange",
+      "targets": [
+        {
+          "expr": "histogram_quantile(0.95, sum(rate(exchange_latency_seconds_bucket[5m])) by (le, exchange))",
+          "legendFormat": "p95 {{exchange}}",
+          "refId": "C",
+          "datasource": "Prometheus"
+        }
+      ],
+      "options": { "legend": { "displayMode": "list", "placement": "bottom" } },
+      "fieldConfig": { "defaults": { "unit": "s" }, "overrides": [] },
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 8 }
+    },
+    {
+      "type": "timeseries",
+      "title": "Error Rate (%) (5m)",
+      "targets": [
+        {
+          "expr": "100 * (sum by (exchange) (rate(requests_err_total[5m]))) / clamp_min((sum by (exchange) (rate(requests_ok_total[5m])) + sum by (exchange) (rate(requests_err_total[5m]))), 1e-9)",
+          "legendFormat": "Error% {{exchange}}",
+          "refId": "D",
+          "datasource": "Prometheus"
+        }
+      ],
+      "options": { "legend": { "displayMode": "list", "placement": "bottom" } },
+      "fieldConfig": { "defaults": { "unit": "percent" }, "overrides": [] },
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 8 }
+    },
+    {
+      "type": "timeseries",
+      "title": "Opportunities Found (30m)",
+      "targets": [
+        {
+          "expr": "sum by (pair) (increase(arbitrage_found_total[30m]))",
+          "legendFormat": "{{pair}}",
+          "refId": "E",
+          "datasource": "Prometheus"
+        }
+      ],
+      "options": { "legend": { "displayMode": "list", "placement": "bottom" } },
+      "fieldConfig": { "defaults": { "unit": "short" }, "overrides": [] },
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 16 }
+    },
+    {
+      "type": "timeseries",
+      "title": "Requests Status (5m)",
+      "targets": [
+        {
+          "expr": "sum by (exchange) (rate(requests_ok_total[5m]))",
+          "legendFormat": "OK {{exchange}}",
+          "refId": "F1",
+          "datasource": "Prometheus"
+        },
+        {
+          "expr": "sum by (exchange) (rate(requests_err_total[5m]))",
+          "legendFormat": "ERR {{exchange}}",
+          "refId": "F2",
+          "datasource": "Prometheus"
+        }
+      ],
+      "options": { "legend": { "displayMode": "list", "placement": "bottom" } },
+      "fieldConfig": { "defaults": { "unit": "reqps" }, "overrides": [] },
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 16 }
+    },
+    {
+      "type": "stat",
+      "title": "Total Arbitrage Opportunities",
+      "targets": [
+        {
+          "expr": "sum(arbitrage_found_total)",
+          "legendFormat": "Total",
+          "refId": "G",
+          "datasource": "Prometheus"
+        }
+      ],
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
+        "textMode": "auto"
+      },
+      "fieldConfig": { "defaults": { "unit": "short" }, "overrides": [] },
+      "gridPos": { "h": 8, "w": 6, "x": 0, "y": 24 }
+    },
+    {
+      "type": "timeseries",
+      "title": "Opportunities Discovery Rate (5m)",
+      "targets": [
+        {
+          "expr": "sum by (pair) (rate(arbitrage_found_total[5m]))",
+          "legendFormat": "{{pair}}",
+          "refId": "H",
+          "datasource": "Prometheus"
+        }
+      ],
+      "options": { "legend": { "displayMode": "list", "placement": "bottom" } },
+      "fieldConfig": { "defaults": { "unit": "short" }, "overrides": [] },
+      "gridPos": { "h": 8, "w": 18, "x": 6, "y": 24 }
+    }
+  ],
+  "refresh": "5s",
+  "schemaVersion": 38,
+  "style": "dark",
+  "tags": ["arbitrage", "monitoring"],
+  "timezone": "",
+  "title": "Arbitrage Monitoring Dashboard",
+  "version": 1,
+  "weekStart": "",
+  "time": { "from": "now-1h", "to": "now" }
+}

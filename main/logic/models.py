@@ -1,6 +1,7 @@
 from typing import Optional
 from pydantic import BaseModel
 
+
 class prices_data(BaseModel):
     exchange_name: str
     our_symbol: str
@@ -9,6 +10,7 @@ class prices_data(BaseModel):
     last_update_time: Optional[int] = None
     ok: bool = True
     error: Optional[str] = None
+
 
 class arbitrage_decision(BaseModel):
     buy_exchange: str

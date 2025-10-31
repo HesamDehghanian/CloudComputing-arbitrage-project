@@ -6,8 +6,7 @@ from main.flow.metrics import calculate_latency, set_request_ok, set_request_err
 
 NOBITEX_NAME = "Nobitex"
 PAIR_IN = "BTCUSDT"
-PAIR_OUT = "btc-usdt"  # الگوی مستندات نوبیتکس
-
+PAIR_OUT = "btc-usdt"
 API_STATS = "https://apiv2.nobitex.ir/market/stats?symbol=" + PAIR_OUT
 
 

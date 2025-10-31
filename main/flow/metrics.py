@@ -34,3 +34,4 @@ def opportunity_found(pair: str) -> None:
 def metrics_response():
     data = generate_latest()
     return PlainTextResponse(data.decode("utf-8"), media_type=CONTENT_TYPE_LATEST)
+

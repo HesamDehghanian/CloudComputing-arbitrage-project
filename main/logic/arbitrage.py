@@ -24,10 +24,8 @@ def decide(from_nobitex: prices_data, from_wallex: prices_data, threshold: float
             is_opportunity=False
         )
 
-    difference1, benefit_percent1 = calculate(from_nobitex.last_price,
-                                              from_wallex.last_price)  # Buy Nobitex → Sell Wallex
-    difference2, benefit_percent2 = calculate(from_wallex.last_price,
-                                              from_nobitex.last_price)  # Buy Wallex → Sell Nobitex
+    difference1, benefit_percent1 = calculate(from_nobitex.last_price, from_wallex.last_price)
+    difference2, benefit_percent2 = calculate(from_wallex.last_price, from_nobitex.last_price)
 
     if difference1 >= difference2:
         buy_ex, sell_ex = from_nobitex, from_wallex
@@ -38,6 +36,8 @@ def decide(from_nobitex: prices_data, from_wallex: prices_data, threshold: float
 
     if benefit_percent >= threshold and min_trade_usdt > 0:
         is_opp = True
+    else:
+        is_opp = False
 
     return arbitrage_decision(
         buy_exchange=buy_ex.exchange_name,
